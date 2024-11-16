@@ -25,10 +25,12 @@ public class App
         testTile.setXPos(5);
         System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(3,3);
+        Grid mainGrid = new Grid(8,8);
         System.out.println(mainGrid);
-        System.out.println(mainGrid.tileBoard);
-        System.out.println(mainGrid.tileBoard[2][2]);
+        //System.out.println(mainGrid.tileBoard);
+        //System.out.println(mainGrid.tileBoard[2][2]);
+        mainGrid.tileBoard[1][1].isRevealed = true;
+        System.out.println(mainGrid);
 
     }
 

@@ -29,4 +29,19 @@ public class Grid
             }
         }
     }
+
+    public String toString()
+    {
+        String gridPrint = "";
+        for(int i = 0; i < xSize; i++)
+        {
+            for(int j = 0; j < ySize; j++)
+            {
+                if(tileBoard[i][j].isRevealed == false) gridPrint += "O";
+                else gridPrint += tileBoard[i][j].nearbyBombs;
+            }
+            gridPrint += '\n';
+        }
+        return gridPrint;
+    }
 }
