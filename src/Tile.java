@@ -2,6 +2,7 @@ public class Tile
 {
     int xPos;
     int yPos;
+    int nearbyBombs;
     boolean isBomb;
     boolean isRevealed;
 
@@ -9,11 +10,12 @@ public class Tile
     {
         this.xPos = 0;
         this.yPos = 0;
+        this.nearbyBombs = 0;
         this.isBomb = false;        
         this.isRevealed = false;
     }
 
-    Tile(int xPos, int yPos, boolean isBomb, boolean isRevealed) //constructor
+    Tile(int xPos, int yPos, int nearbyBombs, boolean isBomb, boolean isRevealed) //constructor
     {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -25,6 +27,7 @@ public class Tile
     {
         return  "xPos = " + this.xPos + '\n' +
                 "yPos = " + this.yPos + '\n' +
+                "nearbyBombs = " + this.nearbyBombs + '\n' +
                 "isBomb = " + this.isBomb + '\n' +
                 "isRevealed = " + this.isRevealed + '\n';
     }
