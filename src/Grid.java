@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Grid 
 {
     int xSize;
@@ -30,6 +32,38 @@ public class Grid
         }
     }
 
+    void placeBombs(int bombAmt)
+    {
+        int col = 0;
+        int row = 0;
+        Random rand = new Random();
+        while(bombAmt >= 0)
+        {
+            col = rand.nextInt(xSize);
+            row = rand.nextInt(ySize);
+            System.out.println("Rolling for bomb placement at (" + col + ", " + row + ")!");
+            if(rand.nextInt(100) == 50) 
+            {
+                tileBoard[col][row].isBomb = true;
+                System.out.println("Bomb placed at (" + col + ", " + row + ")!");
+                bombAmt--;
+            }
+        }
+    }
+
+    public void revealBoard()
+    {
+        System.out.println("Revealing Entire Board!");
+        System.out.println("-----------------------");
+        for(int i = 0; i < xSize; i++)
+        {
+            for(int j = 0; j < ySize; j++)
+            {
+                tileBoard[i][j].isRevealed = true;
+            }
+        }
+    }
+
     public String toString()
     {
         String gridPrint = "";
@@ -37,8 +71,13 @@ public class Grid
         {
             for(int j = 0; j < ySize; j++)
             {
-                if(tileBoard[i][j].isRevealed == false) gridPrint += "O";
-                else gridPrint += tileBoard[i][j].nearbyBombs;
+                
+                if(tileBoard[i][j].isRevealed == false) gridPrint += "?";
+                else{
+                        if(tileBoard[i][j].isBomb == true && tileBoard[i][j].isRevealed == true) gridPrint += "X";
+                        else gridPrint += tileBoard[i][j].nearbyBombs;
+                    }
+                
             }
             gridPrint += '\n';
         }

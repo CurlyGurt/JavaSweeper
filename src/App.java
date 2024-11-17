@@ -31,6 +31,11 @@ public class App
         //System.out.println(mainGrid.tileBoard[2][2]);
         mainGrid.tileBoard[1][1].isRevealed = true;
         System.out.println(mainGrid);
+        //ask user for difficulty here, place bombs amount accourding
+        mainGrid.placeBombs(30);
+        System.out.println(mainGrid);
+        mainGrid.revealBoard();
+        System.out.println(mainGrid);
 
     }
 
