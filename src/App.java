@@ -19,24 +19,23 @@ public class App
 {
     public static void main(String[] args) throws Exception 
     {
-        Tile testTile = new Tile();
+        //Tile testTile = new Tile();
         //System.out.println("Tile1 xpos: " + tile1.xPos);
-        System.out.println(testTile);
-        testTile.setXPos(5);
-        System.out.println(testTile);
+        //System.out.println(testTile);
+        //testTile.setXPos(5);
+        //System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(8,8);
+        Grid mainGrid = new Grid(5,3);
         System.out.println(mainGrid);
         //System.out.println(mainGrid.tileBoard);
         //System.out.println(mainGrid.tileBoard[2][2]);
-        mainGrid.tileBoard[1][1].isRevealed = true;
         System.out.println(mainGrid);
         //ask user for difficulty here, place bombs amount accourding
-        mainGrid.placeBombs(30);
+        mainGrid.placeBombs(3);
         System.out.println(mainGrid);
         mainGrid.revealBoard();
         System.out.println(mainGrid);
-
+        mainGrid.findBombsInProx();
     }
 
     //FUNCTIONS
