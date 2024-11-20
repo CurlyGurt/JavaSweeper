@@ -47,7 +47,7 @@ public class Grid
             if(rand.nextInt(100) == 50) 
             {
                 tileBoard[row][col].isBomb = true;
-                System.out.println("Bomb placed at (" + col + ", " + row + ")!");
+                //System.out.println("Bomb placed at (" + col + ", " + row + ")!");
                 bombAmt--;
             }
         }
@@ -55,14 +55,14 @@ public class Grid
 
     void findBombsInProx()
     {
-        int bombCount = 0;
+        //int bombCount = 0;
         for(int i = 0; i < ySize; i++)
         {
             //System.out.println("i = " + i + "---------------------------");
             for(int j = 0; j < xSize; j++)
             {
-                System.out.println("---------------------------------------------");
-                System.out.println("i = " + i + "\tj = " + j + "\t(x,y) = (" + (j+1) + "," + (i+1) + ")\n");
+                //System.out.println("---------------------------------------------");
+                //System.out.println("i = " + i + "\tj = " + j + "\t(x,y) = (" + (j+1) + "," + (i+1) + ")\n");
                                      //(-1,-1) (0,-1) (1,-1)
                 //check top left          ?      ?      ?
                 //check top middle     (-1,0)  (0,0)  (1,0)          
@@ -75,37 +75,51 @@ public class Grid
 
                 if(j > 0)  //if not the left-most column
                 {
-                    System.out.println("tileBoard[i][j-1] (left): \n" + tileBoard[i][j-1]);                    
+                    //System.out.println("tileBoard[i][j-1] (left): \n" + tileBoard[i][j-1]);
+                    if(tileBoard[i][j-1].isBomb) tileBoard[i][j].nearbyBombs++;
                 }
                 if(j < xSize-1) //if not bordering the right side
                 {
-                    System.out.println("tileBoard[i][j+1] (right): \n" + tileBoard[i][j+1]);
+                    //System.out.println("tileBoard[i][j+1] (right): \n" + tileBoard[i][j+1]);
+                    if(tileBoard[i][j+1].isBomb) tileBoard[i][j].nearbyBombs++;
                 }
                 if(i > 0)  //if not the top row
                 {
-                    System.out.println("tileBoard[i-1][j] (top): \n" + tileBoard[i-1][j]);                    
+                    //System.out.println("tileBoard[i-1][j] (top): \n" + tileBoard[i-1][j]);        
+                    if(tileBoard[i-1][j].isBomb) tileBoard[i][j].nearbyBombs++;
+            
                 }
                 if(i < ySize-1) //if not bordering the bottom
                 {
-                    System.out.println("tileBoard[i+1][j] (bottom): \n" + tileBoard[i+1][j]);
+                    //System.out.println("tileBoard[i+1][j] (bottom): \n" + tileBoard[i+1][j]);
+                    if(tileBoard[i+1][j].isBomb) tileBoard[i][j].nearbyBombs++;
+
                 }
                 if(j > 0 && i > 0)  //if not the left-most column
                 {
-                    System.out.println("tileBoard[i-1][j-1] (top-left): \n" + tileBoard[i-1][j-1]);                    
+                    //System.out.println("tileBoard[i-1][j-1] (top-left): \n" + tileBoard[i-1][j-1]);
+                    if(tileBoard[i-1][j-1].isBomb) tileBoard[i][j].nearbyBombs++;
+                   
                 }
                 if(j < xSize-1 && i < ySize-1) //if not bordering the right side or bottom
                 {
-                    System.out.println("tileBoard[i+1][j+1] (bottom-right): \n" + tileBoard[i+1][j+1]);
+                    //System.out.println("tileBoard[i+1][j+1] (bottom-right): \n" + tileBoard[i+1][j+1]);
+                    if(tileBoard[i+1][j+1].isBomb) tileBoard[i][j].nearbyBombs++;
+
                 }
                 if(j > 0 && i < ySize-1)  //if not the left-most column and not the bottom row
                 {
-                    System.out.println("tileBoard[i+1][j-1] (bottom-left): \n" + tileBoard[i+1][j-1]);                    
+                    //System.out.println("tileBoard[i+1][j-1] (bottom-left): \n" + tileBoard[i+1][j-1]);
+                    if(tileBoard[i+1][j-1].isBomb) tileBoard[i][j].nearbyBombs++;
+
                 }
                 if(i > 0 && j < xSize-1)  //if not the right-most column and not the top row
                 {
-                    System.out.println("tileBoard[i-1][j+1] (top-right): \n" + tileBoard[i-1][j+1]);                    
+                    //System.out.println("tileBoard[i-1][j+1] (top-right): \n" + tileBoard[i-1][j+1]);  
+                    if(tileBoard[i-1][j+1].isBomb) tileBoard[i][j].nearbyBombs++;
+                  
                 }
-                System.out.println("tileBoard[i][j] (center): \n" + tileBoard[i][j]);
+                //System.out.println("tileBoard[i][j] (center): \n" + tileBoard[i][j]);
 
             }   
         }

@@ -25,17 +25,18 @@ public class App
         //testTile.setXPos(5);
         //System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(5,3);
-        System.out.println(mainGrid);
+        Grid mainGrid = new Grid(10,20);
+        System.out.println("Generating Grid...\n" + mainGrid);
         //System.out.println(mainGrid.tileBoard);
         //System.out.println(mainGrid.tileBoard[2][2]);
-        System.out.println(mainGrid);
         //ask user for difficulty here, place bombs amount accourding
-        mainGrid.placeBombs(3);
-        System.out.println(mainGrid);
+        mainGrid.placeBombs(20);
+        System.out.println("placing bombs...\n" + mainGrid);
+        mainGrid.findBombsInProx();
+        System.out.println("finding bombs in proximity...\n" + mainGrid);
         mainGrid.revealBoard();
         System.out.println(mainGrid);
-        mainGrid.findBombsInProx();
+        
     }
 
     //FUNCTIONS
