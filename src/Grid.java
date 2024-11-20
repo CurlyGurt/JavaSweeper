@@ -10,25 +10,25 @@ public class Grid
     {
        this.xSize = 0;
        this.ySize = 0;
-       this.tileBoard[xSize][ySize] = null;
+       this.tileBoard[ySize][xSize] = null;
     }
 
-    Grid(int row, int col)
+    Grid(int col, int row)
     {
         this.xSize = col;
         this.ySize = row;
-        this.tileBoard = new Tile[xSize][ySize];
+        this.tileBoard = new Tile[ySize][xSize];
         generateGrid(xSize, ySize);
     }
 
     void generateGrid(int xSize, int ySize)
     {
-        for(int i = 0; i < xSize; i++)
+        for(int i = 0; i < ySize; i++)
         {
             //System.out.println("j is = " + j);
-            for(int j = 0; j < ySize; j++)
+            for(int j = 0; j < xSize; j++)
             {
-                tileBoard[i][j] = new Tile(i, j, 0, false, false);
+                tileBoard[i][j] = new Tile(j, i, 0, false, false);
                 //System.out.println("j is = " + j);
             }
         }
@@ -46,7 +46,7 @@ public class Grid
             //System.out.println("Rolling for bomb placement at (" + col + ", " + row + ")!");
             if(rand.nextInt(100) == 50) 
             {
-                tileBoard[col][row].isBomb = true;
+                tileBoard[row][col].isBomb = true;
                 System.out.println("Bomb placed at (" + col + ", " + row + ")!");
                 bombAmt--;
             }
@@ -56,13 +56,13 @@ public class Grid
     void findBombsInProx()
     {
         int bombCount = 0;
-        for(int i = 0; i < xSize; i++)
+        for(int i = 0; i < ySize; i++)
         {
             //System.out.println("i = " + i + "---------------------------");
-            for(int j = 0; j < ySize; j++)
+            for(int j = 0; j < xSize; j++)
             {
                 System.out.println("---------------------------------------------");
-                System.out.println("i = " + i + "\tj = " + j);
+                System.out.println("i = " + i + "\tj = " + j + "\t(x,y) = (" + (j+1) + "," + (i+1) + ")\n");
                                      //(-1,-1) (0,-1) (1,-1)
                 //check top left          ?      ?      ?
                 //check top middle     (-1,0)  (0,0)  (1,0)          
@@ -72,13 +72,40 @@ public class Grid
                 //check bottom left
                 //check bottom
                 //check bottom right
+
                 if(j > 0)  //if not the left-most column
                 {
-                    System.out.println("tileBoard[i][j-1] = " + tileBoard[i][j-1]);
-                    
-                    //if(tileBoard[i])
+                    System.out.println("tileBoard[i][j-1] (left): \n" + tileBoard[i][j-1]);                    
                 }
-                System.out.println("tileBoard center = " + tileBoard[i][j]);
+                if(j < xSize-1) //if not bordering the right side
+                {
+                    System.out.println("tileBoard[i][j+1] (right): \n" + tileBoard[i][j+1]);
+                }
+                if(i > 0)  //if not the top row
+                {
+                    System.out.println("tileBoard[i-1][j] (top): \n" + tileBoard[i-1][j]);                    
+                }
+                if(i < ySize-1) //if not bordering the bottom
+                {
+                    System.out.println("tileBoard[i+1][j] (bottom): \n" + tileBoard[i+1][j]);
+                }
+                if(j > 0 && i > 0)  //if not the left-most column
+                {
+                    System.out.println("tileBoard[i-1][j-1] (top-left): \n" + tileBoard[i-1][j-1]);                    
+                }
+                if(j < xSize-1 && i < ySize-1) //if not bordering the right side or bottom
+                {
+                    System.out.println("tileBoard[i+1][j+1] (bottom-right): \n" + tileBoard[i+1][j+1]);
+                }
+                if(j > 0 && i < ySize-1)  //if not the left-most column and not the bottom row
+                {
+                    System.out.println("tileBoard[i+1][j-1] (bottom-left): \n" + tileBoard[i+1][j-1]);                    
+                }
+                if(i > 0 && j < xSize-1)  //if not the right-most column and not the top row
+                {
+                    System.out.println("tileBoard[i-1][j+1] (top-right): \n" + tileBoard[i-1][j+1]);                    
+                }
+                System.out.println("tileBoard[i][j] (center): \n" + tileBoard[i][j]);
 
             }   
         }
@@ -88,9 +115,9 @@ public class Grid
     {
         System.out.println("Revealing Entire Board!");
         System.out.println("-----------------------");
-        for(int i = 0; i < xSize; i++)
+        for(int i = 0; i < ySize; i++)
         {
-            for(int j = 0; j < ySize; j++)
+            for(int j = 0; j < xSize; j++)
             {
                 tileBoard[i][j].isRevealed = true;
             }
@@ -100,9 +127,9 @@ public class Grid
     public String toString()
     {
         String gridPrint = "";
-        for(int i = 0; i < xSize; i++)
+        for(int i = 0; i < ySize; i++)
         {
-            for(int j = 0; j < ySize; j++)
+            for(int j = 0; j < xSize; j++)
             {
                 
                 if(tileBoard[i][j].isRevealed == false) gridPrint += "?";

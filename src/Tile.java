@@ -25,8 +25,8 @@ public class Tile
 
     public String toString() 
     {
-        return  "xPos = " + this.xPos + '\n' +
-                "yPos = " + this.yPos + '\n' +
+        return  "xPos = " + (this.xPos+1) + '\n' +
+                "yPos = " + (this.yPos+1) + '\n' +
                 "nearbyBombs = " + this.nearbyBombs + '\n' +
                 "isBomb = " + this.isBomb + '\n' +
                 "isRevealed = " + this.isRevealed + '\n';
