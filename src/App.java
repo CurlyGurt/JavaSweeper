@@ -1,10 +1,10 @@
 //import Tile;
 /* Functions Needed:
  * Grid Generator
- *      -Take in width and Length and bomb amount
- *      -Generate Tiles
- *      -Place bombs
- *      -if not bomb, check how many bombs surround
+ *      -Take in width and Length and bomb amount *
+ *      -Generate Tiles                             *
+ *      -Place bombs *
+ *      -if not bomb, check how many bombs surround *
  *
  * Check if bomb
  *      -When tile is selected
@@ -12,7 +12,7 @@
  *      -if bomb, end game
  * 
  * Draw Game Table
- *      -start with printing
+ *      -start with printing *
  */
 
 public class App 
@@ -34,6 +34,9 @@ public class App
         System.out.println("placing bombs...\n" + mainGrid);
         mainGrid.findBombsInProx();
         System.out.println("finding bombs in proximity...\n" + mainGrid);
+
+        mainGrid.revealTile(3,3);
+        System.out.println("Revealing tile @ (3,3)...\n" + mainGrid);
         mainGrid.revealBoard();
         System.out.println(mainGrid);
         

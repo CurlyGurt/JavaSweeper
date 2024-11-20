@@ -72,6 +72,7 @@ public class Grid
                 //check bottom left
                 //check bottom
                 //check bottom right
+                //if(tileBoard[i][j].isBomb) break;
 
                 if(j > 0)  //if not the left-most column
                 {
@@ -133,7 +134,41 @@ public class Grid
         {
             for(int j = 0; j < xSize; j++)
             {
-                tileBoard[i][j].isRevealed = true;
+                tileBoard[i][j].setRevealed(true);
+            }
+        }
+    }
+
+    public void revealTile(int xCord, int yCord)
+    {
+        tileBoard[yCord][xCord].isRevealed = true;
+        for(int i = 0; i < ySize; i++)
+        {
+            for(int j = 0; j < xSize; j++)
+            {
+                if(j > 0)  //if not the left-most column
+                {
+                    //System.out.println("tileBoard[i][j-1] (left): \n" + tileBoard[i][j-1]);
+                    if(tileBoard[i][j-1].nearbyBombs == 0) {
+                        tileBoard[i][j-1].setRevealed(true);
+                        revealTile(i, yCord);
+                    }
+                }
+                if(j < xSize-1) //if not bordering the right side
+                {
+                    //System.out.println("tileBoard[i][j+1] (right): \n" + tileBoard[i][j+1]);
+                if(tileBoard[i][j+1].isBomb) tileBoard[i][j].nearbyBombs++;
+                }
+                if(i > 0)  //if not the top row
+                {
+                    //System.out.println("tileBoard[i-1][j] (top): \n" + tileBoard[i-1][j]);        
+                    if(tileBoard[i-1][j].isBomb) tileBoard[i][j].nearbyBombs++;
+                }
+                if(i < ySize-1) //if not bordering the bottom
+                {
+                        //System.out.println("tileBoard[i+1][j] (bottom): \n" + tileBoard[i+1][j]);
+                    if(tileBoard[i+1][j].isBomb) tileBoard[i][j].nearbyBombs++;
+                }
             }
         }
     }
@@ -145,13 +180,11 @@ public class Grid
         {
             for(int j = 0; j < xSize; j++)
             {
-                
-                if(tileBoard[i][j].isRevealed == false) gridPrint += "?";
+                if(tileBoard[i][j].isRevealed == false) gridPrint += "? ";
                 else{
-                        if(tileBoard[i][j].isBomb == true && tileBoard[i][j].isRevealed == true) gridPrint += "X";
-                        else gridPrint += tileBoard[i][j].nearbyBombs;
+                        if(tileBoard[i][j].isBomb == true && tileBoard[i][j].isRevealed == true) gridPrint += "X ";
+                        else gridPrint += tileBoard[i][j].nearbyBombs+" ";
                     }
-                
             }
             gridPrint += '\n';
         }
