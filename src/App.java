@@ -13,6 +13,9 @@
  * 
  * Draw Game Table
  *      -start with printing *
+ * 
+ * Flagging!!!
+ *      -mark bombs with flags by right-clicking
  */
 
 public class App 
