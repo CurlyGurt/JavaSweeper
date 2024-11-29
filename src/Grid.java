@@ -96,7 +96,7 @@ public class Grid
                     if(tileBoard[i+1][j].isBomb) tileBoard[i][j].nearbyBombs++;
 
                 }
-                if(j > 0 && i > 0)  //if not the left-most column
+                if(j > 0 && i > 0)  //if not the left-most column or top
                 {
                     //System.out.println("tileBoard[i-1][j-1] (top-left): \n" + tileBoard[i-1][j-1]);
                     if(tileBoard[i-1][j-1].isBomb) tileBoard[i][j].nearbyBombs++;
@@ -147,41 +147,70 @@ public class Grid
         }
         else
         {
+            System.out.println("You Revealed a bomb! You lose idiot!");
             revealBoard(); //!!! Must change this to failure state
         }
+        
         if(tileBoard[yCord][xCord].nearbyBombs == 0) 
         {
             if(xCord > 0)  //if not the left-most column
             {
                 if(tileBoard[yCord][xCord-1].nearbyBombs == 0 && !tileBoard[yCord][xCord-1].isRevealed && !tileBoard[yCord][xCord-1].isBomb) 
                 {
-                    System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\txCord>0");
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\txCord>0");
+                    
                     revealTile(xCord-1, yCord);
+                    
                 }
+                tileBoard[yCord][xCord-1].setRevealed(true);
             }
             if(xCord < xSize-1) //if not bordering the right side
             {
                 if(tileBoard[yCord][xCord+1].nearbyBombs == 0 && !tileBoard[yCord][xCord+1].isRevealed && !tileBoard[yCord][xCord+1].isBomb) 
                 {
-                    System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\txCord < xSize-1");
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\txCord < xSize-1");
+                    
                     revealTile(xCord+1, yCord);
+                    
                 } 
+                tileBoard[yCord][xCord+1].setRevealed(true);
             }
             if(yCord > 0)  //if not the top row
             {
                 if(tileBoard[yCord-1][xCord].nearbyBombs == 0 && !tileBoard[yCord-1][xCord].isRevealed && !tileBoard[yCord-1][xCord].isBomb)
                 {
-                    System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord>0");
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord>0");
+                    
                     revealTile(xCord, yCord-1);
-                } 
+                    
+                }
+                tileBoard[yCord-1][xCord].setRevealed(true); 
             }
             if(yCord < ySize-1) //if not bordering the bottom
             {
                 if(tileBoard[yCord+1][xCord].nearbyBombs == 0 && !tileBoard[yCord+1][xCord].isRevealed && !tileBoard[yCord+1][xCord].isBomb)
                 {
-                    System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
                     revealTile(xCord, yCord+1);
                 } 
+                tileBoard[yCord+1][xCord].setRevealed(true);
+            }
+            if(xCord > 0 && yCord > 0)  //if not the left-most column or top
+            {
+                tileBoard[yCord-1][xCord-1].setRevealed(true);
+            }
+            if(xCord < xSize-1 && yCord < ySize-1) //if not bordering the right side or bottom
+            {
+                tileBoard[yCord+1][xCord+1].setRevealed(true);
+            }
+            if(xCord > 0 && yCord < ySize-1)  //if not the left-most column and not the bottom row
+            {
+                tileBoard[yCord+1][xCord-1].setRevealed(true);
+            }
+            if(yCord > 0 && xCord < xSize-1)  //if not the right-most column and not the top row
+            {
+                tileBoard[yCord-1][xCord+1].setRevealed(true);
+                
             }
         }
     }

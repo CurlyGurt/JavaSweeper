@@ -28,12 +28,12 @@ public class App
         //testTile.setXPos(5);
         //System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(10,20);
+        Grid mainGrid = new Grid(16,16);
         System.out.println("Generating Grid...\n" + mainGrid);
         //System.out.println(mainGrid.tileBoard);
         //System.out.println(mainGrid.tileBoard[2][2]);
         //ask user for difficulty here, place bombs amount accourding
-        mainGrid.placeBombs(20);
+        mainGrid.placeBombs(40);
         System.out.println("placing bombs...\n" + mainGrid);
         mainGrid.findBombsInProx();
         System.out.println("finding bombs in proximity...\n" + mainGrid);
