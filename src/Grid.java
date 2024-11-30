@@ -197,18 +197,38 @@ public class Grid
             }
             if(xCord > 0 && yCord > 0)  //if not the left-most column or top
             {
+                if(tileBoard[yCord-1][xCord-1].nearbyBombs == 0 && !tileBoard[yCord-1][xCord-1].isRevealed && !tileBoard[yCord-1][xCord-1].isBomb)
+                {
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
+                    revealTile(xCord-1, yCord-1);
+                }
                 tileBoard[yCord-1][xCord-1].setRevealed(true);
             }
             if(xCord < xSize-1 && yCord < ySize-1) //if not bordering the right side or bottom
             {
+                if(tileBoard[yCord+1][xCord+1].nearbyBombs == 0 && !tileBoard[yCord+1][xCord+1].isRevealed && !tileBoard[yCord+1][xCord+1].isBomb)
+                {
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
+                    revealTile(xCord+1, yCord+1);
+                }
                 tileBoard[yCord+1][xCord+1].setRevealed(true);
             }
             if(xCord > 0 && yCord < ySize-1)  //if not the left-most column and not the bottom row
             {
+                if(tileBoard[yCord+1][xCord-1].nearbyBombs == 0 && !tileBoard[yCord+1][xCord-1].isRevealed && !tileBoard[yCord+1][xCord-1].isBomb)
+                {
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
+                    revealTile(xCord-1, yCord+1);
+                }
                 tileBoard[yCord+1][xCord-1].setRevealed(true);
             }
             if(yCord > 0 && xCord < xSize-1)  //if not the right-most column and not the top row
             {
+                if(tileBoard[yCord-1][xCord+1].nearbyBombs == 0 && !tileBoard[yCord-1][xCord+1].isRevealed && !tileBoard[yCord+-1][xCord+1].isBomb)
+                {
+                    //System.out.println("Revealing (" + xCord + "," + (yCord) + ")...\tyCord < ySize-1");
+                    revealTile(xCord+1, yCord-1);
+                }
                 tileBoard[yCord-1][xCord+1].setRevealed(true);
                 
             }
