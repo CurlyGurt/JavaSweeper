@@ -42,6 +42,8 @@ public class App
         System.out.println("Revealing tile @ (3,3)...\n" + mainGrid);
         mainGrid.revealBoard();
         System.out.println(mainGrid);
+        SweeperUI ui = new SweeperUI();
+        ui.ShowUI();
         
     }
 
