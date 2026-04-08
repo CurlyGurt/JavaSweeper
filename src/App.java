@@ -38,12 +38,12 @@ public class App
         mainGrid.findBombsInProx();
         System.out.println("finding bombs in proximity...\n" + mainGrid);
 
-        mainGrid.revealTile(3,3);
-        System.out.println("Revealing tile @ (3,3)...\n" + mainGrid);
-        mainGrid.revealBoard();
-        System.out.println(mainGrid);
+        //mainGrid.revealTile(3,3);
+        //System.out.println("Revealing tile @ (3,3)...\n" + mainGrid);
+        //mainGrid.revealBoard();
+        //System.out.println(mainGrid);
         SweeperUI ui = new SweeperUI();
-        ui.ShowUI();
+        ui.ShowUI(mainGrid);
         
     }
 

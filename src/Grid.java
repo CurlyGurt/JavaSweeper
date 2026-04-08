@@ -242,11 +242,11 @@ public class Grid
         {
             for(int j = 0; j < xSize; j++)
             {
-                if(tileBoard[i][j].isRevealed == false) gridPrint += "? ";
-                else{
+                //if(tileBoard[i][j].isRevealed == false) gridPrint += "? ";
+                //else{
                         if(tileBoard[i][j].isBomb == true && tileBoard[i][j].isRevealed == true) gridPrint += "X ";
                         else gridPrint += tileBoard[i][j].nearbyBombs+" ";
-                    }
+                //    }
             }
             gridPrint += '\n';
         }
