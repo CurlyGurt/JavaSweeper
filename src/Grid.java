@@ -5,7 +5,7 @@ public class Grid
     int xSize;
     int ySize;
     Tile[][] tileBoard;
-    //need an array of an array of objects
+
     Grid() 
     {
        this.xSize = 0;
@@ -25,11 +25,9 @@ public class Grid
     {
         for(int i = 0; i < ySize; i++)
         {
-            //System.out.println("j is = " + j);
             for(int j = 0; j < xSize; j++)
             {
                 tileBoard[i][j] = new Tile(j, i, 0, false, false);
-                //System.out.println("j is = " + j);
             }
         }
     }

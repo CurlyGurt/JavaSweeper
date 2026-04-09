@@ -28,7 +28,7 @@ public class App
         //testTile.setXPos(5);
         //System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(20,20);
+        Grid mainGrid = new Grid(15,20);
         System.out.println("Generating Grid...\n" + mainGrid);
         //System.out.println(mainGrid.tileBoard);
         //System.out.println(mainGrid.tileBoard[2][2]);
@@ -46,12 +46,4 @@ public class App
         ui.ShowUI(mainGrid);
         
     }
-
-    //FUNCTIONS
-    /*public Tile[][] generateGrid(int xSize, int ySize) 
-    {
-        Tile[][] tileBoard = new Tile[xSize][ySize];
-        System.out.println(tileBoard[0][0]);
-        return tileBoard;
-    }*/
 }

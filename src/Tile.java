@@ -19,6 +19,7 @@ public class Tile
     {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.nearbyBombs = nearbyBombs;
         this.isBomb = isBomb;        
         this.isRevealed = isRevealed;
     }
