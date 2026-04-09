@@ -73,20 +73,22 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         }
     }
 
+    //Reveals the tile that was selected, reveals additional tiles if the current tile has no nearby bombs
     public void revealAdjacentTiles(int xInd, int yInd) 
     {
-        buttonArr[xInd][yInd].setEnabled(false);
-        if(uiGrid.tileBoard[yInd][xInd].nearbyBombs > 0) buttonArr[xInd][yInd].setText(Integer.toString(uiGrid.tileBoard[yInd][xInd].nearbyBombs));
+        buttonArr[xInd][yInd].setEnabled(false); //Grays out selected tile
         buttonArr[xInd][yInd].setBorder(loweredBevel);
         uiGrid.tileBoard[yInd][xInd].isRevealed = true;
-
+        if(uiGrid.tileBoard[yInd][xInd].nearbyBombs > 0) buttonArr[xInd][yInd].setText(Integer.toString(uiGrid.tileBoard[yInd][xInd].nearbyBombs)); //if tile has nearby bombs then display it's number, if not keep button blank
+        
         //Check if bomb
         if(uiGrid.tileBoard[yInd][xInd].isBomb)
         {
             faceButton.setText(":(");
             revealAllTiles();
         }
-
+        
+        //if tile is blank and not a bomb, we reveal all tiles around it that aren't bombs. This occurs recursively, revealing large areas of empty tiles.
         else if(uiGrid.tileBoard[yInd][xInd].nearbyBombs == 0)
         {
             //check up
@@ -113,7 +115,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
                 if(!uiGrid.tileBoard[yInd][xInd+1].isBomb && !uiGrid.tileBoard[yInd][xInd+1].isRevealed) revealAdjacentTiles(xInd+1, yInd);
             }
             
-            //-------DIAGONALS-------
+            // -------DIAGONALS-------
 
             //Check up-left
             if(yInd > 0 && xInd > 0)
@@ -150,7 +152,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
             {
                 if(buttonArr[i][j] == (JButton)e.getSource())
                 {
-                    //System.out.println("button found at (" + i + "," + j + ")");
+                    //System.out.println("button found at (" + i + "," + j + ")"); //shows (x,y) coords of pressed button, used for testing purposes.
                     revealAdjacentTiles(i, j);
                     break;
                 }
