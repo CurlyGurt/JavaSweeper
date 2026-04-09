@@ -8,7 +8,7 @@
  * Check if bomb
  *      -When tile is selected                      *
  *      -check if bomb, if not, reveal number       *
- *      -if bomb, end game
+ *      -if bomb, end game                          ~ kinda
  * 
  * Draw Game Table
  *      -start with printing                        *
@@ -22,25 +22,23 @@
  *      -keep track of flags as user places them
  * 
  * Difficulty Selection
- *      -Allow User to select difficulty
- *      -Offer Easy, Medium, Hard, & Custom           
+ *      -Allow User to select difficulty            *
+ *      -Offer Easy, Medium, Hard, & Custom         ~ need custom
  *      -Allow user to define custom difficulty;
  *       let them choose dimensions and amount of bombs
  */
 
-public class App 
+public class App
 {
     public static void main(String[] args) throws Exception 
     {
-        //ask user for difficulty here, place bombs accordingly
         
-        Grid mainGrid = new Grid(15,20);
-        mainGrid.placeBombs(40);
-        mainGrid.findBombsInProx();
-
-        System.out.println("----------Generated Grid----------- \n" + mainGrid); //displays grid in terminal for testing purposes
-
-        SweeperUI ui = new SweeperUI();
-        ui.ShowUI(mainGrid);
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() 
+            {
+                difficultyUI diffUI = new difficultyUI();
+                diffUI.showDifficultyWindow();
+            }
+        });
     }
 }

@@ -60,6 +60,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
 
         frame.add(headerPanel);
         frame.add(faceButton);
+        frame.addWindowListener(this);
         frame.setSize(WINDOWX,WINDOWY);
         frame.setLayout(null);
         frame.setVisible(true);
