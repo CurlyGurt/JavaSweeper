@@ -2,8 +2,12 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -20,6 +24,47 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
     JButton faceButton;
     JButton[][] buttonArr;
     Grid uiGrid;
+    MouseAdapter flagger = new MouseAdapter() 
+    {
+        public void mouseClicked(MouseEvent me) 
+        {
+            //me.getSource();
+            if(me.getButton() == MouseEvent.BUTTON1)
+            {
+                for(int i = 0; i < buttonArr.length; i++)
+                {
+                    for(int j = 0; j < buttonArr[i].length; j++)
+                    {
+                        if(buttonArr[i][j] == (JButton)me.getSource())
+                        {
+                            //System.out.println("button found at (" + i + "," + j + ")"); //shows (x,y) coords of pressed button, used for testing purposes.
+                            revealAdjacentTiles(i, j);
+                            break;
+                        }
+                    }
+                }
+            }
+            if(me.getButton() == MouseEvent.BUTTON3) 
+            {
+                for(int i = 0; i < buttonArr.length; i++)
+                {
+                    for(int j = 0; j < buttonArr[i].length; j++)
+                    {
+                        if(buttonArr[i][j] == (JButton)me.getSource())
+                        {
+                            //System.out.println("button found at (" + i + "," + j + ")"); //shows (x,y) coords of pressed button, used for testing purposes.
+                            if(!uiGrid.tileBoard[j][i].isRevealed) 
+                            {
+                                buttonArr[i][j].setText("F");
+                                //lower bomb counter in corner
+                            }
+                                
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     public void ShowUI(Grid mainGrid)
     {
@@ -30,7 +75,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         WINDOWY = 110+buttonSize*mainGrid.ySize;
         loweredBevel = BorderFactory.createLoweredBevelBorder();
         raisedBevel = BorderFactory.createRaisedBevelBorder();
-        
+
         buttonArr = new JButton[mainGrid.xSize][mainGrid.ySize]; //creates a 2D button array that matches the Grid layout generated in App
         uiGrid = mainGrid; //sets this class' grid to the generated Grid so that other functions can access
 
@@ -53,7 +98,8 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
                 buttonArr[i][j].setBounds(10+(buttonSize*i), 60+(buttonSize*j), buttonSize, buttonSize); //set size and placement of buttons according to buttonSize
                 buttonArr[i][j].setFont(new Font("Arial", Font.PLAIN, fontSize)); 
                 buttonArr[i][j].setBorder(raisedBevel);
-                buttonArr[i][j].addActionListener(this);
+                buttonArr[i][j].addMouseListener(flagger);
+                //buttonArr[i][j].addActionListener(this);
                 frame.add(buttonArr[i][j]);
             }
         }
@@ -75,6 +121,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
             {
                 buttonArr[i][j].setEnabled(false);
                 buttonArr[i][j].setBorder(loweredBevel);
+                uiGrid.tileBoard[j][i].setRevealed(true);
                 if(uiGrid.tileBoard[j][i].isBomb) buttonArr[i][j].setText("*");
                 else if(uiGrid.tileBoard[j][i].nearbyBombs > 0) buttonArr[i][j].setText(Integer.toString(uiGrid.tileBoard[j][i].nearbyBombs));
             }

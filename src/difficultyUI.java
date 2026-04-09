@@ -68,7 +68,9 @@ public class difficultyUI extends Frame implements WindowListener, ActionListene
 
      public void actionPerformed(ActionEvent e) 
     {
+        //splits string from a buttons ActionCommand into an array of strings
         String[] action = e.getActionCommand().split(",");
+        
         if(action[0].equals("difficulty"))
         {
             xSize = Integer.parseInt(action[1]);
