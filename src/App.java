@@ -1,49 +1,46 @@
-//import Tile;
 /* Functions Needed:
  * Grid Generator
- *      -Take in width and Length and bomb amount *
+ *      -Take in width and Length and bomb amount   *
  *      -Generate Tiles                             *
- *      -Place bombs *
+ *      -Randomly Place bombs                       *
  *      -if not bomb, check how many bombs surround *
  *
  * Check if bomb
- *      -When tile is selected
- *      -check if bomb, if not, reveal number
+ *      -When tile is selected                      *
+ *      -check if bomb, if not, reveal number       *
  *      -if bomb, end game
  * 
  * Draw Game Table
- *      -start with printing *
+ *      -start with printing                        *
+ *      -Use buttons to display game board          *
+ *      -Display timer that tracks how long current
+ *       game has gone on in Seconds
  * 
- * Flagging!!!
+ * Flagging
  *      -mark bombs with flags by right-clicking
+ *      -right click flag to replace it with ?
+ *      -keep track of flags as user places them
+ * 
+ * Difficulty Selection
+ *      -Allow User to select difficulty
+ *      -Offer Easy, Medium, Hard, & Custom           
+ *      -Allow user to define custom difficulty;
+ *       let them choose dimensions and amount of bombs
  */
 
 public class App 
 {
     public static void main(String[] args) throws Exception 
     {
-        //Tile testTile = new Tile();
-        //System.out.println("Tile1 xpos: " + tile1.xPos);
-        //System.out.println(testTile);
-        //testTile.setXPos(5);
-        //System.out.println(testTile);
-        //generateGrid(3,3);
+        //ask user for difficulty here, place bombs accordingly
+        
         Grid mainGrid = new Grid(15,20);
-        System.out.println("Generating Grid...\n" + mainGrid);
-        //System.out.println(mainGrid.tileBoard);
-        //System.out.println(mainGrid.tileBoard[2][2]);
-        //ask user for difficulty here, place bombs amount accourding
         mainGrid.placeBombs(40);
-        System.out.println("placing bombs...\n" + mainGrid);
         mainGrid.findBombsInProx();
-        System.out.println("finding bombs in proximity...\n" + mainGrid);
 
-        //mainGrid.revealTile(3,3);
-        //System.out.println("Revealing tile @ (3,3)...\n" + mainGrid);
-        //mainGrid.revealBoard();
-        //System.out.println(mainGrid);
+        System.out.println("----------Generated Grid----------- \n" + mainGrid); //displays grid in terminal for testing purposes
+
         SweeperUI ui = new SweeperUI();
         ui.ShowUI(mainGrid);
-        
     }
 }
