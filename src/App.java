@@ -28,7 +28,7 @@ public class App
         //testTile.setXPos(5);
         //System.out.println(testTile);
         //generateGrid(3,3);
-        Grid mainGrid = new Grid(16,16);
+        Grid mainGrid = new Grid(20,20);
         System.out.println("Generating Grid...\n" + mainGrid);
         //System.out.println(mainGrid.tileBoard);
         //System.out.println(mainGrid.tileBoard[2][2]);
