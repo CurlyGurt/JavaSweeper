@@ -70,7 +70,7 @@ public class difficultyUI extends Frame implements WindowListener, ActionListene
     {
         //splits string from a buttons ActionCommand into an array of strings
         String[] action = e.getActionCommand().split(",");
-        
+
         if(action[0].equals("difficulty"))
         {
             xSize = Integer.parseInt(action[1]);
@@ -85,7 +85,7 @@ public class difficultyUI extends Frame implements WindowListener, ActionListene
 
             System.out.println("----------Generated Grid----------- \n" + mainGrid); //displays grid in terminal for testing purposes
             SweeperUI ui = new SweeperUI();
-            ui.ShowUI(mainGrid);
+            ui.ShowUI(mainGrid, bombs);
             diffFrame.setVisible(false);
         }
     }

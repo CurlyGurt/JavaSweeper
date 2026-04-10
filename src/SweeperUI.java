@@ -16,11 +16,14 @@ import javax.swing.border.Border;
 
 
 public class SweeperUI extends Frame implements WindowListener, ActionListener {
+    Border loweredBevel, raisedBevel, buttonBevel;
     int WINDOWX = 1000;
     int WINDOWY = 1000;
     int buttonSize = 50;
-    Border loweredBevel, raisedBevel, buttonBevel;
     int fontSize = buttonSize/2 + 5;
+    int initBombCount;
+    int bombCounter;
+    int bombsCorrectlyFlagged;
     JButton faceButton;
     JButton[][] buttonArr;
     Grid uiGrid;
@@ -53,12 +56,22 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
                         if(buttonArr[i][j] == (JButton)me.getSource())
                         {
                             //System.out.println("button found at (" + i + "," + j + ")"); //shows (x,y) coords of pressed button, used for testing purposes.
-                            if(!uiGrid.tileBoard[j][i].isRevealed) 
+                            if(buttonArr[i][j].getText() == "F")
+                            {
+                                buttonArr[i][j].setText("");
+                                bombCounter++;
+                                if(uiGrid.tileBoard[j][i].isBomb) bombsCorrectlyFlagged--;
+                                System.out.println("bombCounter = " + bombCounter + " bombsCorrectlyFlagged = " + bombsCorrectlyFlagged);
+                            }
+                            else if(!uiGrid.tileBoard[j][i].isRevealed && bombCounter >= 0) 
                             {
                                 buttonArr[i][j].setText("F");
-                                //lower bomb counter in corner
+                                bombCounter--;
+                                if(uiGrid.tileBoard[j][i].isBomb) bombsCorrectlyFlagged++;
+                                if(initBombCount == bombsCorrectlyFlagged) revealAllTiles();
+                                System.out.println("bombCounter = " + bombCounter + " bombsCorrectlyFlagged = " + bombsCorrectlyFlagged);
                             }
-                                
+                            break;
                         }
                     }
                 }
@@ -66,7 +79,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         }
     };
 
-    public void ShowUI(Grid mainGrid)
+    public void ShowUI(Grid mainGrid, int bombs)
     {
         //Window Setup
         JFrame frame = new JFrame("JavaSweeper");
@@ -78,6 +91,7 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
 
         buttonArr = new JButton[mainGrid.xSize][mainGrid.ySize]; //creates a 2D button array that matches the Grid layout generated in App
         uiGrid = mainGrid; //sets this class' grid to the generated Grid so that other functions can access
+        bombCounter = initBombCount = bombs;
 
         //Header Panel setup (contains face button, timer, bomb/flag counter)
         headerPanel.setBorder(loweredBevel);
@@ -115,17 +129,37 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
     //Goes through entire 2D array of Buttons and reveals all of them (due to a failure state)
     public void revealAllTiles()
     {
-        for(int i = 0; i < buttonArr.length; i++)
+        if(initBombCount == bombsCorrectlyFlagged)
         {
-            for(int j = 0; j < buttonArr[i].length; j++)
+            System.out.println("You Won! Congratulations!");
+            for(int i = 0; i < buttonArr.length; i++)
             {
-                buttonArr[i][j].setEnabled(false);
-                buttonArr[i][j].setBorder(loweredBevel);
-                uiGrid.tileBoard[j][i].setRevealed(true);
-                if(uiGrid.tileBoard[j][i].isBomb) buttonArr[i][j].setText("*");
-                else if(uiGrid.tileBoard[j][i].nearbyBombs > 0) buttonArr[i][j].setText(Integer.toString(uiGrid.tileBoard[j][i].nearbyBombs));
+                for(int j = 0; j < buttonArr[i].length; j++)
+                {
+                    buttonArr[i][j].setEnabled(false);
+                    buttonArr[i][j].setBorder(loweredBevel);
+                    uiGrid.tileBoard[j][i].setRevealed(true);
+                    faceButton.setText(":D");
+                    if(uiGrid.tileBoard[j][i].isBomb) buttonArr[i][j].setText("*");
+                    else if(uiGrid.tileBoard[j][i].nearbyBombs > 0) buttonArr[i][j].setText(Integer.toString(uiGrid.tileBoard[j][i].nearbyBombs));
+                }
             }
         }
+        else
+        {
+            for(int i = 0; i < buttonArr.length; i++)
+            {
+                for(int j = 0; j < buttonArr[i].length; j++)
+                {
+                    buttonArr[i][j].setEnabled(false);
+                    buttonArr[i][j].setBorder(loweredBevel);
+                    uiGrid.tileBoard[j][i].setRevealed(true);
+                    if(uiGrid.tileBoard[j][i].isBomb) buttonArr[i][j].setText("*");
+                    else if(uiGrid.tileBoard[j][i].nearbyBombs > 0) buttonArr[i][j].setText(Integer.toString(uiGrid.tileBoard[j][i].nearbyBombs));
+                }
+            }
+        }
+        
     }
 
     //Reveals the tile that was selected, reveals additional tiles if the current tile has no nearby bombs
