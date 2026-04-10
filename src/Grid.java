@@ -22,8 +22,12 @@ public class Grid
     }
 
     //Generates a grid of tiles according to the dimension size given from App
-    void generateGrid(int xSize, int ySize)
+    void generateGrid(int col, int row)
     {
+        this.xSize = col;
+        this.ySize = row;
+        this.tileBoard = new Tile[ySize][xSize];
+
         for(int i = 0; i < ySize; i++)
         {
             for(int j = 0; j < xSize; j++)
@@ -39,12 +43,14 @@ public class Grid
         int col = 0;
         int row = 0;
         Random rand = new Random();
-        while(bombAmt >= 0)
+        //System.out.println("initial bombAmt = " + bombAmt);
+        while(bombAmt > 0)
         {
+            //System.out.println("bombAmt = " + bombAmt);
             col = rand.nextInt(xSize);
             row = rand.nextInt(ySize);
             //System.out.println("\nRolling for bomb placement at (" + col + ", " + row + ")!");
-            if(rand.nextInt(100) == 50) 
+            if(rand.nextInt(4) == 1 && !tileBoard[row][col].isBomb) 
             {
                 tileBoard[row][col].isBomb = true;
                 //System.out.println("!!! Bomb placed at (" + col + ", " + row + ") !!!");

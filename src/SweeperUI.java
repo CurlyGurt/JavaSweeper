@@ -8,10 +8,14 @@ import java.awt.event.WindowListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
+import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.border.Border;
 
 
@@ -21,12 +25,18 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
     int WINDOWY = 1000;
     int buttonSize = 50;
     int fontSize = buttonSize/2 + 5;
+    int xSize = 9; //default to easy
+    int ySize = 9;
+    int bombs = 10;
     int initBombCount;
     int bombCounter;
     int bombsCorrectlyFlagged;
+    JFrame frame;
+    JFrame diffFrame;
     JButton faceButton;
     JButton[][] buttonArr;
-    Grid uiGrid;
+    Grid uiGrid = new Grid(1,1);
+
     MouseAdapter flagger = new MouseAdapter() 
     {
         public void mouseClicked(MouseEvent me) 
@@ -79,18 +89,18 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         }
     };
 
-    public void ShowUI(Grid mainGrid, int bombs)
+    public void ShowUI()
     {
         //Window Setup
-        JFrame frame = new JFrame("JavaSweeper");
+        frame = new JFrame("JavaSweeper");
         JPanel headerPanel = new JPanel();
-        WINDOWX = 35+buttonSize*mainGrid.xSize; //Sets window resolution according to button size
-        WINDOWY = 110+buttonSize*mainGrid.ySize;
+        WINDOWX = 35+buttonSize*uiGrid.xSize; //Sets window resolution according to button size
+        WINDOWY = 110+buttonSize*uiGrid.ySize;
         loweredBevel = BorderFactory.createLoweredBevelBorder();
         raisedBevel = BorderFactory.createRaisedBevelBorder();
 
-        buttonArr = new JButton[mainGrid.xSize][mainGrid.ySize]; //creates a 2D button array that matches the Grid layout generated in App
-        uiGrid = mainGrid; //sets this class' grid to the generated Grid so that other functions can access
+        buttonArr = new JButton[uiGrid.xSize][uiGrid.ySize]; //creates a 2D button array that matches the Grid layout generated in App
+        //uiGrid = mainGrid; //sets this class' grid to the generated Grid so that other functions can access
         bombCounter = initBombCount = bombs;
 
         //Header Panel setup (contains face button, timer, bomb/flag counter)
@@ -102,11 +112,13 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         faceButton.setBounds((WINDOWX-35-20)/2, 10, 40,40);
         faceButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
         faceButton.setBorder(raisedBevel);
+        faceButton.setActionCommand("restart,0,0,0");
+        faceButton.addActionListener(this);
 
         //Creates the array of buttons according the size of the grid supplied
-        for(int i = 0; i < mainGrid.xSize; i++)
+        for(int i = 0; i < uiGrid.xSize; i++)
         {
-            for(int j = 0; j < mainGrid.ySize; j++)
+            for(int j = 0; j < uiGrid.ySize; j++)
             {
                 buttonArr[i][j] = new JButton();
                 buttonArr[i][j].setBounds(10+(buttonSize*i), 60+(buttonSize*j), buttonSize, buttonSize); //set size and placement of buttons according to buttonSize
@@ -124,6 +136,54 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
         frame.setSize(WINDOWX,WINDOWY);
         frame.setLayout(null);
         frame.setVisible(true);
+    }
+
+    public void showDifficultyWindow()
+    {
+        diffFrame = new JFrame("JavaSweeper: Select Your Difficulty");
+        diffFrame.addWindowListener(this);
+        GridLayout layout = new GridLayout(0, 1);
+        JButton startButton = new JButton("Start");
+        JRadioButton easyDiff = new JRadioButton("Easy (9x9, 10 Mines)");
+        JRadioButton medDiff = new JRadioButton("Medium (16x16, 40 Mines)");
+        JRadioButton hardDiff = new JRadioButton("Hard (30x16, 99 Mines)");
+        //JRadioButton custDiff = new JRadioButton("Custom ");
+
+        //easy selected by default
+        easyDiff.setSelected(true);
+
+        startButton.setActionCommand("start,0,0,0");
+        easyDiff.setActionCommand("difficulty,9,9,10");
+        medDiff.setActionCommand("difficulty,16,16,40");
+        hardDiff.setActionCommand("difficulty,30,16,99");
+        //custDiff.setActionCommand("9, 9, 10");
+
+        //Groups the radio buttons together so that only one can be selected at a time.
+        ButtonGroup buttGroup = new ButtonGroup();
+        buttGroup.add(easyDiff);
+        buttGroup.add(medDiff);
+        buttGroup.add(hardDiff);
+
+        startButton.addActionListener(this);
+        easyDiff.addActionListener(this);
+        medDiff.addActionListener(this);
+        hardDiff.addActionListener(this);
+
+        JPanel buttPanel = new JPanel(layout);
+        buttPanel.add(easyDiff);
+        buttPanel.add(medDiff);
+        buttPanel.add(hardDiff);
+        buttPanel.add(startButton);
+        buttPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        
+        //JPanel startPanel = new JPanel(layout);
+        //startPanel.add(startButton);
+        //startPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+        diffFrame.add(buttPanel, BorderLayout.LINE_START);
+        //diffFrame.add(startPanel, BorderLayout.CENTER);
+        diffFrame.pack();
+        diffFrame.setVisible(true);
     }
 
     //Goes through entire 2D array of Buttons and reveals all of them (due to a failure state)
@@ -235,30 +295,59 @@ public class SweeperUI extends Frame implements WindowListener, ActionListener {
     //When a button is clicked, Goes through entire array of buttons to find it's (x,y) coordinates. This makes it possible to grab a Tiles data from uiGrid
     public void actionPerformed(ActionEvent e) 
     {
-        for(int i = 0; i < buttonArr.length; i++)
+        //splits string from a buttons ActionCommand into an array of strings
+        String[] action = e.getActionCommand().split(",");
+
+        if(action[0].equals("difficulty"))
         {
-            for(int j = 0; j < buttonArr[i].length; j++)
-            {
-                if(buttonArr[i][j] == (JButton)e.getSource())
-                {
-                    //System.out.println("button found at (" + i + "," + j + ")"); //shows (x,y) coords of pressed button, used for testing purposes.
-                    revealAdjacentTiles(i, j);
-                    break;
-                }
-            }
+            xSize = Integer.parseInt(action[1]);
+            ySize = Integer.parseInt(action[2]);
+            bombs = Integer.parseInt(action[3]);
+        }
+        else if(action[0].equals("start")) 
+        {
+            System.out.println("xSize = " + xSize + " ySize = " + ySize + " bombs = " + bombs);
+            uiGrid.generateGrid(xSize, ySize);
+            uiGrid.placeBombs(bombs);
+            uiGrid.findBombsInProx();
+
+            System.out.println("----------Generated Grid----------- \n" + uiGrid); //displays grid in terminal for testing purposes
+            
+            ShowUI();
+            diffFrame.setVisible(false);
+        }
+        else if(action[0].equals("restart")) 
+        {
+            frame.dispose();
+            buttonArr = null;
+            bombsCorrectlyFlagged = 0;
+            System.gc();
+            diffFrame.setVisible(true);
         }
     }
 
     public void windowClosing(WindowEvent e) 
     {
-        dispose();
-        System.exit(0);
+        
+        if(e.getWindow() == diffFrame)
+        {
+            dispose();
+            System.exit(0);
+        }
+        else if(e.getWindow() == frame)
+        {
+            frame.dispose();
+            buttonArr = null;
+            bombsCorrectlyFlagged = 0;
+            System.gc();
+            diffFrame.setVisible(true);
+        }
     }
 
     public void windowClosed(WindowEvent e) 
     {
         dispose();
-        System.exit(0);
+        //System.exit(0);
     }
 
     public void windowOpened(WindowEvent e) {}

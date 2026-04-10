@@ -36,8 +36,8 @@ public class App
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() 
             {
-                difficultyUI diffUI = new difficultyUI();
-                diffUI.showDifficultyWindow();
+                SweeperUI ui = new SweeperUI();
+                ui.showDifficultyWindow();
             }
         });
     }

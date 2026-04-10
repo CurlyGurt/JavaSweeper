@@ -17,6 +17,8 @@ public class difficultyUI extends Frame implements WindowListener, ActionListene
     int ySize = 9;
     int bombs = 10;
     JFrame diffFrame;
+    Grid mainGrid = new Grid(1,1);
+    SweeperUI ui = new SweeperUI();
 
     public void showDifficultyWindow()
     {
@@ -79,13 +81,13 @@ public class difficultyUI extends Frame implements WindowListener, ActionListene
         }
         else if(action[0].equals("start")) 
         {
-            Grid mainGrid = new Grid(xSize,ySize);
+            mainGrid.generateGrid(xSize, ySize);
             mainGrid.placeBombs(bombs);
             mainGrid.findBombsInProx();
 
             System.out.println("----------Generated Grid----------- \n" + mainGrid); //displays grid in terminal for testing purposes
-            SweeperUI ui = new SweeperUI();
-            ui.ShowUI(mainGrid, bombs);
+            
+            ui.ShowUI(mainGrid, bombs, diffFrame);
             diffFrame.setVisible(false);
         }
     }
